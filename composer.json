@@ -1,0 +1,52 @@
+{
+    "name": "tobento/service-picture",
+    "type": "library",
+    "description": "Picture support for PHP applications.",
+    "keywords": [
+        "tobento",
+        "package",
+        "PHP",
+        "picture",
+        "images"
+    ],
+    "homepage": "https://www.tobento.ch",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Strub",
+            "email": "info@tobento.ch",
+            "homepage": "https://www.tobento.ch"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.0",
+        "tobento/service-imager": "^1.0",
+        "tobento/service-dir": "^1.0",
+        "tobento/service-filesystem": "^1.0",
+        "tobento/service-tag": "^1.0.5",
+        "league/mime-type-detection": "^1.15",
+        "psr/log": "^1.1 || ^2.0 || ^3.0"
+    },  
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^4.0",
+        "guzzlehttp/psr7": "^2.7",
+        "monolog/monolog": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tobento\\Service\\Picture\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tobento\\Service\\Picture\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --testdox --colors=always",
+        "psalm": "vendor/bin/psalm"
+    }
+}

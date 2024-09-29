@@ -1,0 +1,44 @@
+{
+    "img": {
+        "src": {
+            "width": 300,
+            "height": null,
+            "descriptor": "2x",
+            "mimeType": "image/jpeg",
+            "url": null,
+            "path": null,
+            "options": []
+        },
+        "srcset": [
+            {
+                "width": 200
+            }
+        ],
+        "attributes": {
+            "key": "value"
+        }
+    },
+    "sources": [
+        {
+            "srcset": [
+                {
+                    "width": 200,
+                    "height": null,
+                    "descriptor": null,
+                    "url": null,
+                    "path": null,
+                    "options": []
+                }
+            ],
+            "attributes": {
+                "key": "value"
+            }
+        }
+    ],
+    "attributes": {
+        "key": "value"
+    },
+    "options": {
+        "key": "value"
+    }
+}
