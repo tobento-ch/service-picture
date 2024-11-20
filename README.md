@@ -80,6 +80,12 @@ use Tobento\Service\Picture\PictureCreatorInterface;
 
 $pictureCreator = new PictureCreator(
     imager: (new ImagerFactory())->createImager(),
+
+    // You may define imager actions which are allowed only.
+    // If empty array all are allowed if not in disallowedActions.
+    allowedActions: [
+        Action\Greyscale::class,
+    ],
     
     // You may define imager actions which are not allowed and will be skipped:
     disallowedActions: [
