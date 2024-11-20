@@ -52,6 +52,8 @@ class PictureCreator implements PictureCreatorInterface
      * Create a new PictureCreator.
      *
      * @param ImagerInterface $imager
+     * @param array<array-key, class-string> $allowedActions
+     *   E.g. [Action\Crop::class] If empty array all are allowed if not in disallowed actions.
      * @param array<array-key, class-string> $disallowedActions
      * @param array<array-key, string> $supportedMimeTypes
      * @param null|float $upsize
@@ -62,6 +64,7 @@ class PictureCreator implements PictureCreatorInterface
      */
     public function __construct(
         protected ImagerInterface $imager,
+        protected array $allowedActions = [],
         protected array $disallowedActions = [],
         protected array $supportedMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         protected null|float $upsize = null,
@@ -370,6 +373,16 @@ class PictureCreator implements PictureCreatorInterface
     }
     
     /**
+     * Returns the allowed actions.
+     *
+     * @return array<array-key, class-string>
+     */
+    protected function allowedActions(): array
+    {
+        return $this->allowedActions;
+    }
+    
+    /**
      * Returns the disallowed actions.
      *
      * @return array<array-key, class-string>
@@ -402,8 +415,12 @@ class PictureCreator implements PictureCreatorInterface
                 continue;
             }
             
-            if (!is_string($actionName) || !is_array($actionParams)) {
+            if (!is_string($actionName)) {
                 continue;
+            }
+            
+            if (!is_array($actionParams)) {
+                $actionParams = [];
             }
             
             try {
@@ -411,9 +428,15 @@ class PictureCreator implements PictureCreatorInterface
                 
                 if (in_array($action::class, $this->disallowedActions())) {
                     $this->logger?->log('debug', sprintf('Disallowed action %s', $actionName));
-                } else {
-                    $created[] = $action;
+                    continue;
                 }
+                
+                if (!empty($this->allowedActions()) && !in_array($action::class, $this->allowedActions())) {
+                    $this->logger?->log('debug', sprintf('Disallowed action %s', $actionName));
+                    continue;
+                }
+                
+                $created[] = $action;
             } catch (ActionCreateException $e) {
                 // ignore exception but we log:
                 $this->logger?->log(
