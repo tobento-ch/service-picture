@@ -465,6 +465,69 @@ class PictureCreatorTest extends TestCase
         );
     }
     
+    public function testAllowedActionsGetsProcessedOnly()
+    {
+        $pictureCreator = new PictureCreator(
+            imager: (new ImagerFactory())->createImager(),
+            allowedActions: [
+                Action\Gamma::class,
+            ],
+        );
+        
+        $createdPicture = $pictureCreator->createFromResource(
+            resource: new Resource\File(__DIR__.'/src/image.jpg'),
+            definition: new ArrayDefinition(name: 'foo', definition: [
+                'img' => [
+                    'src' => [50],
+                ],
+                'options' => [
+                    'actions' => [
+                        'gamma' => ['gamma' => 5.5],
+                        'greyscale' => [],
+                    ],
+                ],
+            ]),
+        );
+        
+        $actions = $createdPicture->img()->src()->encoded()->actions();
+        $this->assertSame(3, count($actions->all()));
+        
+        $actions = $actions->filter(fn(ActionInterface $action) => $action instanceof Action\Greyscale);
+        $this->assertSame(0, count($actions->all()));
+    }
+    
+    public function testAllowedActionsLogsDisallowedActions()
+    {
+        $logger = new Logger('name');
+        $testHandler = new TestHandler();
+        $logger->pushHandler($testHandler);
+        
+        $pictureCreator = new PictureCreator(
+            imager: (new ImagerFactory())->createImager(),
+            allowedActions: [
+                Action\Gamma::class,
+            ],
+            logger: $logger,
+        );
+        
+        $createdPicture = $pictureCreator->createFromResource(
+            resource: new Resource\File(__DIR__.'/src/image.jpg'),
+            definition: new ArrayDefinition(name: 'foo', definition: [
+                'img' => [
+                    'src' => [50],
+                ],
+                'options' => [
+                    'actions' => [
+                        'gamma' => ['gamma' => 5.5],
+                        'greyscale' => [],
+                    ],
+                ],
+            ]),
+        );
+        
+        $this->assertTrue($testHandler->hasRecord('Disallowed action greyscale', 'debug'));
+    }
+    
     public function testDisallowedActionsGetSkipped()
     {
         $pictureCreator = new PictureCreator(
