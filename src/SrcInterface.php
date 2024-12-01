@@ -121,10 +121,10 @@ interface SrcInterface extends JsonSerializable
     /**
      * Returns a new instance with the given encoded.
      *
-     * @param Encoded $encoded
+     * @param null|Encoded $encoded
      * @return static
      */
-    public function withEncoded(Encoded $encoded): static;
+    public function withEncoded(null|Encoded $encoded): static;
     
     /**
      * Returns the options.
