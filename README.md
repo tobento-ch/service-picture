@@ -42,7 +42,7 @@ composer require tobento/service-picture
 
 ## Requirements
 
-- PHP 8.0 or greater
+- PHP 8.4 or greater
 
 ## Highlights
 
@@ -64,7 +64,7 @@ use Tobento\Service\Imager\InterventionImage\ImagerFactory;
 use Tobento\Service\Picture\PictureCreator;
 
 $pictureCreator = new PictureCreator(
-    imager: (new ImagerFactory())->createImager(),
+    imager: new ImagerFactory()->createImager(),
 );
 ```
 
@@ -79,7 +79,7 @@ use Tobento\Service\Picture\PictureCreator;
 use Tobento\Service\Picture\PictureCreatorInterface;
 
 $pictureCreator = new PictureCreator(
-    imager: (new ImagerFactory())->createImager(),
+    imager: new ImagerFactory()->createImager(),
 
     // You may define imager actions which are allowed only.
     // If empty array all are allowed if not in disallowedActions.
@@ -888,7 +888,7 @@ Use the ```createFromArray``` method to create a picture from the given array:
 use Tobento\Service\Picture\PictureFactory;
 use Tobento\Service\Picture\PictureInterface;
 
-$picture = (new PictureFactory())->createFromArray([
+$picture = new PictureFactory()->createFromArray([
     'img' => [
         'src' => [
             'width' => 300,
@@ -960,7 +960,7 @@ $picture = new Picture(
     sources: new Sources(),
 );
 
-$pictureTag = (new PictureTagFactory())->createFromPicture($picture);
+$pictureTag = new PictureTagFactory()->createFromPicture($picture);
 
 var_dump($pictureTag instanceof PictureTagInterface);
 // bool(true)
