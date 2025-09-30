@@ -332,7 +332,7 @@ class PictureCreator implements PictureCreatorInterface
             throw new PictureCreateException(
                 resource: $resource,
                 message: $e->getMessage(),
-                code: (int)$e->getCode(),
+                code: $e->getCode(),
                 previous: $e,
             );
         }
@@ -456,14 +456,12 @@ class PictureCreator implements PictureCreatorInterface
      * @param ResourceInterface $resource
      * @return string The verified mime type.
      * @throws PictureCreateException
-     * @psalm-suppress InvalidNullableReturnType
-     * @psalm-suppress NullableReturnStatement
      */
     protected function verifyMimeType(ResourceInterface $resource): string
     {
         $detector = new FinfoMimeTypeDetector();
         
-        switch ($resource) {
+        switch (true) {
             case $resource instanceof Resource\Stream:
                 $mimeType = $detector->detectMimeTypeFromBuffer((string)$resource->stream());
                 break;
@@ -483,14 +481,14 @@ class PictureCreator implements PictureCreatorInterface
                 );
         }
         
-        if (!$this->isSupportedMimeType($mimeType)) {
-            throw new PictureCreateException(
-                resource: $resource,
-                message: 'Unsupported mime type',
-            );
+        if ($this->isSupportedMimeType($mimeType)) {
+            return (string)$mimeType;
         }
         
-        return $mimeType;
+        throw new PictureCreateException(
+            resource: $resource,
+            message: 'Unsupported mime type',
+        );
     }
     
     /**
@@ -528,7 +526,7 @@ class PictureCreator implements PictureCreatorInterface
      */
     protected function verifySizes(ResourceInterface $resource, PictureInterface $picture): void
     {
-        switch ($resource) {
+        switch (true) {
             case $resource instanceof Resource\Stream:
                 $size = getimagesizefromstring((string)$resource->stream());
                 $width = $size[0] ?? 0;
