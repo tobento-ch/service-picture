@@ -18,7 +18,7 @@ use IteratorAggregate;
 use Countable;
 
 /**
- * SrcsetInterface
+ * @extends IteratorAggregate<array-key, SrcInterface>
  */
 interface SrcsetInterface extends JsonSerializable, IteratorAggregate, Countable
 {

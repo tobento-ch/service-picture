@@ -17,7 +17,7 @@ use IteratorAggregate;
 use Tobento\Service\Picture\Exception\DefinitionNotFoundException;
 
 /**
- * DefinitionsInterface
+ * @extends IteratorAggregate<DefinitionInterface>
  */
 interface DefinitionsInterface extends IteratorAggregate
 {

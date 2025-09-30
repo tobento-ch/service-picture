@@ -19,7 +19,7 @@ use Countable;
 use Generator;
 
 /**
- * SourcesInterface
+ * @extends IteratorAggregate<array-key, SourceInterface>
  */
 interface SourcesInterface extends JsonSerializable, IteratorAggregate, Countable
 {
