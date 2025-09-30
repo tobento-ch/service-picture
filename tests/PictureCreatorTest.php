@@ -525,7 +525,7 @@ class PictureCreatorTest extends TestCase
             ]),
         );
         
-        $this->assertTrue($testHandler->hasRecord('Disallowed action greyscale', 'debug'));
+        $this->assertTrue($testHandler->hasRecord('Disallowed action greyscale', Level::Debug));
     }
     
     public function testDisallowedActionsGetSkipped()
@@ -586,7 +586,7 @@ class PictureCreatorTest extends TestCase
             ]),
         );
         
-        $this->assertTrue($testHandler->hasRecord('Disallowed action gamma', 'debug'));
+        $this->assertTrue($testHandler->hasRecord('Disallowed action gamma', Level::Debug));
     }
     
     public function testUnsupportedMimeTypesFallsbackToDefault()
@@ -731,7 +731,7 @@ class PictureCreatorTest extends TestCase
             ]),
         );
         
-        $this->assertTrue($testHandler->hasRecord('Skipped src with width 320 as lower sized', 'debug'));
+        $this->assertTrue($testHandler->hasRecord('Skipped src with width 320 as lower sized', Level::Debug));
     }
     
     public function testVerifySizesThrowsResourceSizeExceptionIfResourceIsToSmall()
